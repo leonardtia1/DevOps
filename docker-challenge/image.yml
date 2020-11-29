@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+  tasks:
+  - name: creating docker image
+    command: docker build -t pebble:1.0 .
+
+  - name: tagging the image
+    command: docker tag pebble:1.0 leonardtia/pebble:1.0
+
+  - name: pushing the image to docker hub
+    command: docker push leonardtia/pebble:1.0
+
+  - name: removing the tag image from ansible host
+    command: docker rmi -f leonardtia/pebble:1.0
+
+  - name: removing pebble image from ansible host
+    command: docker rmi -f pebble:1.0
+
+  - name: removing the base image tomcat from ansible host
+    command: docker rmi -f tomcat:latest
+

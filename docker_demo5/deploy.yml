@@ -1,0 +1,15 @@
+---
+- hosts: all
+  become: true
+  become_user: root
+  tasks:
+  - name: Install docker
+    yum: name=docker state=present
+  - name: Start docker
+    service: name=docker state=started
+  - name: Get the dockerfile from github
+    git: repo="https://github.com/leonardtia1/docker_demo5.git" dest=/tmp/dockerdir_5
+  - name: Build the dockerfile
+    command: docker build -t contactform:2.0 /tmp/dockerdir_5
+  - name: Run the docker image
+    command: docker run -d -p 8095:8080 --name my-contactform-app contactform:2.0

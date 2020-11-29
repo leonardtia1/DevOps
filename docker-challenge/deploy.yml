@@ -1,0 +1,20 @@
+---
+- hosts: docker-swarm
+  become: yes
+  become_user: ansadmin
+  become_method: sudo
+
+  tasks:
+  - name: Pull the container from docker hub
+    command: docker pull leonardtia/pebble:1.0 
+    ignore_errors: yes
+
+  - name: create a new network
+    command: docker network create --driver overlay my-network
+
+  - name: create a service
+    command: docker service create --name myservice --replicas 3 -p 8090:8080 --network my-network leonardtia/pebble:1.0
+ 
+  
+
+

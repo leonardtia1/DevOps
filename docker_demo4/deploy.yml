@@ -1,0 +1,15 @@
+---
+- hosts: all
+  become: true
+  become_user: root
+  tasks:
+  - name: Install docker
+    yum: name=docker state=present
+  - name: Start docker
+    service: name=docker state=started
+  - name: Get the dockerfile from github
+    git: repo="https://github.com/leonardtia1/docker_demo4.git" dest=/tmp/dockerdir_4
+  - name: Build the dockerfile
+    command: docker build -t happy_new_year:2.0 /tmp/dockerdir_4
+  - name: Run the docker image
+    command: docker run -d -p 8095:8080 --name my-happy_new_year-app happy_new_year:2.0

@@ -1,0 +1,78 @@
+---
+- hosts: all
+  become: true
+  become_user: root
+  tasks:
+  - name: Install git
+    yum: name=git state=present
+
+  - name: Install docker
+    yum: name=docker state=present
+  - name: Start docker
+    service: name=docker state=started
+
+  - name: Get the dockerfile and war file docker-demo1 from github
+    git: repo="https://github.com/leonardtia1/docker_demo1.git" dest=/tmp/dockerdir_1
+
+  - name: Get the dockerfile and war file docker-demo2 from github
+    git: repo="https://github.com/leonardtia1/docker_demo2.git" dest=/tmp/dockerdir_2
+
+  - name: Get the dockerfile and war file docker-demo3 from github
+    git: repo="https://github.com/leonardtia1/docker_demo3.git" dest=/tmp/dockerdir_3
+
+  - name: Get the dockerfile and war file docker-demo4 from github
+    git: repo="https://github.com/leonardtia1/docker_demo4.git" dest=/tmp/dockerdir_4
+
+  - name: Get the dockerfile and war file docker-demo5 from github
+    git: repo="https://github.com/leonardtia1/docker_demo5.git" dest=/tmp/dockerdir_5
+
+  - name: Get the dockerfile and war file docker-demo6 from github
+    git: repo="https://github.com/leonardtia1/docker_demo6.git" dest=/tmp/dockerdir_6
+
+  - name: Get the dockerfile and war file docker-demo7 from github
+    git: repo="https://github.com/leonardtia1/docker_demo7.git" dest=/tmp/dockerdir_7
+
+  - name: create docker image and push it to dockerhub
+    command: "{{item}}"
+    with_items:
+     - docker build -t leonardtia/devops-pro-repos:pebble /tmp/dockerdir_1
+     - docker push leonardtia/devops-pro-repos:pebble
+     - docker rmi leonardtia/devops-pro-repos:pebble
+     - rm -rf /tmp/dockerdir_1
+
+     - docker build -t leonardtia/devops-pro-repos:sample_tomcat /tmp/dockerdir_2
+     - docker push leonardtia/devops-pro-repos:sample_tomcat
+     - docker rmi leonardtia/devops-pro-repos:sample_tomcat
+     - rm -rf /tmp/dockerdir_2
+
+     - docker build -t leonardtia/devops-pro-repos:addressbook /tmp/dockerdir_3
+     - docker push leonardtia/devops-pro-repos:addressbook
+     - docker rmi leonardtia/devops-pro-repos:addressbook
+     - rm -rf /tmp/dockerdir_3
+
+     - docker build -t leonardtia/devops-pro-repos:happy_new_year /tmp/dockerdir_4
+     - docker push leonardtia/devops-pro-repos:happy_new_year
+     - docker rmi leonardtia/devops-pro-repos:happy_new_year
+     - rm -rf /tmp/dockerdir_4
+
+     - docker build -t leonardtia/devops-pro-repos:contactform /tmp/dockerdir_5
+     - docker push leonardtia/devops-pro-repos:contactform
+     - docker rmi leonardtia/devops-pro-repos:contactform
+     - rm -rf /tmp/dockerdir_5
+
+     - docker build -t leonardtia/devops-pro-repos:stutendent_registration /tmp/dockerdir_6
+     - docker push leonardtia/devops-pro-repos:stutendent_registration
+     - docker rmi leonardtia/devops-pro-repos:stutendent_registration
+     - rm -rf /tmp/dockerdir_6
+
+     - docker build -t leonardtia/devops-pro-repos:gameoflife /tmp/dockerdir_7
+     - docker push leonardtia/devops-pro-repos:gameoflife
+     - docker rmi leonardtia/devops-pro-repos:gameoflife
+     - rm -rf /tmp/dockerdir_7
+
+     
+
+
+
+
+
